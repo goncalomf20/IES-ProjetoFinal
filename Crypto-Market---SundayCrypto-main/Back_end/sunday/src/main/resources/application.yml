@@ -1,0 +1,12 @@
+spring:
+  mail:
+    host: smtp.gmail.com
+    username: sundaycryptocompany@gmail.com
+    password: txmb qgxb zhcy bwur
+    port: 587
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: true
+          auth: true

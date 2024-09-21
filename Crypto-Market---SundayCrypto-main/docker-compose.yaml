@@ -1,0 +1,50 @@
+version: '3'
+services:
+  mysql:
+    image: mysql:latest
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: secret1
+      MYSQL_DATABASE: demo
+      MYSQL_USER: demo
+      MYSQL_PASSWORD: secret2
+    networks:
+      - sunday_network
+
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:3.8-management
+   
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - sunday_network
+
+  spring-app:
+    container_name: spring-app
+    build:
+      context: ./Back_end/sunday
+      dockerfile: Dockerfile
+    depends_on:
+      - mysql
+      - rabbitmq
+    ports:
+      - "8080:8080"
+    networks:
+      - sunday_network
+
+  react-app:
+    container_name: react-app
+    build:
+      context: ./Front_End/front-end-app
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"
+    networks:
+      - sunday_network
+
+      
+networks:
+  sunday_network:
+    driver: bridge
